@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../template.xhtml">
+    <ui:define name="head-template">
+        <h:head>
+            <title>Venda</title>
+        </h:head>
+    </ui:define>
+    <ui:define name="container-template">
+        <h:form id="form">
+
+            <p:growl id="mensagens" widgetVar="growl" sticky="false"/>
+            <div class="ui-inputgroup">
+                <p:inputText placeholder="Digite seu código de identificação" value="#{produtoController.codCliente}"/>
+                <p:commandButton value="Ver carrinho" update="form"/>
+            </div>
+
+            <h5>Meu carrinho de compras</h5>
+                <p:dataTable id="tabela" rendered="#{produtoController.finalizado}" var="venda" value="#{produtoController.carrinhoCompras()}"
+                             style="margin-bottom:0" paginator="true"  rows="15" selectionPageOnly="false">
+
+                    <p:column headerText="Nome do cliente">
+                        <h:outputText value="#{venda.nomeCliente}" />
+                    </p:column>
+
+                    <p:column headerText="Descrição">
+                        <h:outputText value="#{venda.descricaoProduto}" />
+                    </p:column>
+                    <p:column headerText="Valor">
+                        <h:outputText value="#{venda.valor}" />
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:row>
+                            <p:column id="finalizaCompra" >
+                                <p:commandButton value="Finalizar compra" action="#{produtoController.finalizar}" update=":form:mensagens"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
